@@ -19,10 +19,10 @@ public class Carta {
 	}
 	
 	public boolean esMayorQue(Carta carta) {
-		return (this.valor.ordinal() > carta.getValor().ordinal());
+		return (this.getValor().ordinal() > carta.getValor().ordinal());
 	}
 
 	public boolean tieneMismoPalo(Carta carta) {
-		return this.palo == carta.getPalo();
+		return this.getPalo() == carta.getPalo();
 	}
 }

@@ -3,22 +3,29 @@ package ar.edu.unq.po2.tpTDTDD;
 import static org.junit.jupiter.api.Assertions.*;
 //import ar.edu.unq.po2.tpTDTDD.ValorDeCarta;
 
+import static org.mockito.Mockito.*;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class PokerStatusTest {
 	PokerStatus pokerStatus;
 	
+	Carta cartaMock;
+	/*
 	Carta asDeCorazones;
 	Carta sieteDeCorazones;
 	Carta nueveDeCorazones;
 	
+	Carta cartaDeCorazones;
+	*/
 	Carta reinaDePicas;
-	Carta diezDePicas;
+	Carta diezDePicas;/*
 	
 	Carta diezDeTrebol;
-	
+	*/
 	Carta reyDeDiamantes;
+	
 	
 	
 	
@@ -27,22 +34,30 @@ class PokerStatusTest {
 		//Set Up
 		pokerStatus = new PokerStatus();
 		
-		asDeCorazones = new Carta(ValorDeCarta.UNO, "C");
-		sieteDeCorazones = new Carta(ValorDeCarta.SIETE, "C");
-		nueveDeCorazones = new Carta(ValorDeCarta.NUEVE, "C");
+		cartaMock = mock(Carta.class);
+		/*
+		asDeCorazones = mock(Carta.class);
+		sieteDeCorazones = mock(Carta.class);
+		nueveDeCorazones = mock(Carta.class);
 		
+		cartaDeCorazones = mock(Carta.class);
+		*/
 		reinaDePicas = new Carta(ValorDeCarta.Q, "P");
-		diezDePicas = new Carta(ValorDeCarta.DIEZ, "P");
+		diezDePicas = new Carta(ValorDeCarta.DIEZ, "P");/*
 		
-		diezDeTrebol = new Carta(ValorDeCarta.DIEZ, "T");
-		
+		diezDeTrebol = mock(Carta.class);
+		*/
 		reyDeDiamantes = new Carta(ValorDeCarta.K, "D");
+		
 	}
+	
+	//SUT es PokerStatus
 
 	@Test
 	void testVerificarConPóquerDevuelvePoker() {
 		//Excercise
-		String resultado = pokerStatus.verificar(asDeCorazones, diezDePicas, asDeCorazones, asDeCorazones, asDeCorazones);
+		when(cartaMock.getValor()).thenReturn(ValorDeCarta.UNO, ValorDeCarta.DIEZ, ValorDeCarta.UNO, ValorDeCarta.UNO, ValorDeCarta.UNO);
+		String resultado = pokerStatus.verificar(cartaMock, cartaMock, cartaMock, cartaMock, cartaMock);
 		
 		//Verify
 		assertEquals("Poker", resultado);
@@ -50,8 +65,19 @@ class PokerStatusTest {
 
 	@Test
 	void testVerificarConTrioDevuelveTrio() {
+		/*
+		when(asDeCorazones.getValor()).thenReturn(ValorDeCarta.UNO);
+		when(diezDePicas.getValor()).thenReturn(ValorDeCarta.DIEZ);
+		when(diezDeTrebol.getValor()).thenReturn(ValorDeCarta.DIEZ);
+		
+		when(asDeCorazones.getPalo()).thenReturn("C");
+		when(diezDePicas.getPalo()).thenReturn("P");
+		when(diezDeTrebol.getPalo()).thenReturn("T");
+		*/
+		when(cartaMock.getValor()).thenReturn(ValorDeCarta.UNO, ValorDeCarta.DIEZ, ValorDeCarta.DIEZ, ValorDeCarta.UNO, ValorDeCarta.DIEZ);
+		when(cartaMock.getPalo()).thenReturn("C", "T", "P", "C", "TS");
 		//Excercise
-		String resultado = pokerStatus.verificar(diezDePicas, diezDePicas, diezDeTrebol, asDeCorazones, asDeCorazones);
+		String resultado = pokerStatus.verificar(cartaMock, cartaMock, cartaMock, cartaMock, cartaMock);
 				
 		//Verify
 		assertEquals("Trio", resultado);
@@ -59,8 +85,20 @@ class PokerStatusTest {
 	
 	@Test
 	void testVerificarConColorDevuelveColor() {
+		/*
+		when(asDeCorazones.getPalo()).thenReturn("C");
+		when(sieteDeCorazones.getPalo()).thenReturn("C");
+		when(nueveDeCorazones.getPalo()).thenReturn("C");
+		
+		when(asDeCorazones.getValor()).thenReturn(ValorDeCarta.UNO);
+		when(sieteDeCorazones.getValor()).thenReturn(ValorDeCarta.SIETE);
+		when(nueveDeCorazones.getValor()).thenReturn(ValorDeCarta.NUEVE);
+		*/
+		when(cartaMock.getPalo()).thenReturn("C");
+		when(cartaMock.getValor()).thenReturn(ValorDeCarta.NUEVE, ValorDeCarta.OCHO, ValorDeCarta.DIEZ, ValorDeCarta.NUEVE, ValorDeCarta.OCHO);
+		
 		//Excercise
-		String resultado = pokerStatus.verificar(asDeCorazones, sieteDeCorazones, nueveDeCorazones, asDeCorazones, sieteDeCorazones);
+		String resultado = pokerStatus.verificar(cartaMock, cartaMock, cartaMock, cartaMock, cartaMock);
 				
 		//Verify
 		assertEquals("Color", resultado);
@@ -68,8 +106,10 @@ class PokerStatusTest {
 	
 	@Test
 	void testVerificarSinJugadaDevuelveNada() {
+		when(cartaMock.getPalo()).thenReturn("C", "P", "T", "D", "C");
+		when(cartaMock.getValor()).thenReturn(ValorDeCarta.NUEVE, ValorDeCarta.OCHO, ValorDeCarta.DIEZ, ValorDeCarta.J, ValorDeCarta.Q);
 		//Excercise
-		String resultado = pokerStatus.verificar(asDeCorazones, reinaDePicas, diezDeTrebol, reyDeDiamantes, sieteDeCorazones);
+		String resultado = pokerStatus.verificar(cartaMock, cartaMock, cartaMock, cartaMock, cartaMock);
 				
 		//Verify
 		assertEquals("Nada", resultado);
@@ -77,18 +117,21 @@ class PokerStatusTest {
 	
 	@Test
 	void testVerificarTodasLasJugadasDevuelveLaMásAlta() {
+		when(cartaMock.getPalo()).thenReturn("C");
+		when(cartaMock.getValor()).thenReturn(ValorDeCarta.UNO);
 		//Excercise
-		String resultado = pokerStatus.verificar(asDeCorazones, asDeCorazones, asDeCorazones, asDeCorazones, asDeCorazones);
+		String resultado = pokerStatus.verificar(cartaMock, cartaMock, cartaMock, cartaMock, cartaMock);
 				
 		//Verify
 		assertEquals("Poker", resultado);
 	}
 	
+	//SUT es Carta//
 	
 	@Test
 	void testEsMayorQue_UnaCartaMayorAOtraDevuelveTrue() {
 		//Excercise
-		boolean resultado = reyDeDiamantes.esMayorQue(asDeCorazones);
+		boolean resultado = reyDeDiamantes.esMayorQue(reinaDePicas);
 				
 		//Verify
 		assertTrue(resultado);
@@ -97,7 +140,7 @@ class PokerStatusTest {
 	@Test
 	void testEsMayorQue_UnaCartaMenorAOtraDevuelveFalse() {
 		//Excercise
-		boolean resultado = asDeCorazones.esMayorQue(reyDeDiamantes);
+		boolean resultado = reinaDePicas.esMayorQue(reyDeDiamantes);
 				
 		//Verify
 		assertFalse(resultado);
@@ -106,7 +149,7 @@ class PokerStatusTest {
 	@Test
 	void testTieneMismoPalo_UnaCartaConElMismoPaloQueOtraDevuelveTrue() {
 		//Excercise
-		boolean resultado = asDeCorazones.tieneMismoPalo(sieteDeCorazones);
+		boolean resultado = reinaDePicas.tieneMismoPalo(diezDePicas);
 				
 		//Verify
 		assertTrue(resultado);
@@ -115,7 +158,7 @@ class PokerStatusTest {
 	@Test
 	void testTieneMismoPalo_UnaCartaConDistintoPaloQueOtraDevuelveFalse() {
 		//Excercise
-		boolean resultado = asDeCorazones.tieneMismoPalo(diezDePicas);
+		boolean resultado = diezDePicas.tieneMismoPalo(reyDeDiamantes);
 				
 		//Verify
 		assertFalse(resultado);
