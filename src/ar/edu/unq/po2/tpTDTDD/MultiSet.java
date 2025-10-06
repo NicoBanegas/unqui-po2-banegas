@@ -6,9 +6,13 @@ import java.util.Map;
 
 public class MultiSet {
 	
-	Map<String, Integer> multiset = new HashMap<>();
+	Map<Object, Integer> multiset = new HashMap<>();
 	
-	public void add(String elem) {
+	public void add(Object elem) {
+	    multiset.put(elem, multiset.getOrDefault(elem, 0) + 1);
+	}
+	
+	public void add(ValorDeCarta elem) {
 	    multiset.put(elem, multiset.getOrDefault(elem, 0) + 1);
 	}
 

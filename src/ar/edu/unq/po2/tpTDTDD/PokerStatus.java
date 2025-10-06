@@ -6,21 +6,21 @@ import java.util.List;
 import ar.edu.unq.po2.tpTDTDD.MultiSet;
 
 public class PokerStatus {
-	String valor;
+	ValorDeCarta valor;
 	String palo;
 	MultiSet multisetDeValores = new MultiSet();
 	MultiSet multisetDePalos = new MultiSet();
-	String carta;
-	List<String> cartasEnMano;
+	Carta carta;
+	List<Carta> cartasEnMano;
 	String estadoDeLaJugada;
 	
-	public String verificar(String carta1, String carta2, String carta3, String carta4, String carta5) {
-		cartasEnMano = new ArrayList<String>(Arrays.asList(carta1, carta2, carta3, carta4, carta5));
+	public String verificar(Carta carta1, Carta carta2, Carta carta3, Carta carta4, Carta carta5) {
+		cartasEnMano = new ArrayList<Carta>(Arrays.asList(carta1, carta2, carta3, carta4, carta5));
 		
 		while (!cartasEnMano.isEmpty()){
 			carta = cartasEnMano.removeFirst();
-			valor = carta.substring(0, carta.length() - 1);
-			palo = carta.substring(carta.length()-1);
+			valor = carta.getValor();
+			palo = carta.getPalo();
 			multisetDeValores.add(valor);
 			multisetDePalos.add(palo);
 		}

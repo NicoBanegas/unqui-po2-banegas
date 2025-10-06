@@ -1,6 +1,7 @@
 package ar.edu.unq.po2.tpTDTDD;
 
 import static org.junit.jupiter.api.Assertions.*;
+//import ar.edu.unq.po2.tpTDTDD.ValorDeCarta;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,16 +9,16 @@ import org.junit.jupiter.api.Test;
 class PokerStatusTest {
 	PokerStatus pokerStatus;
 	
-	String asDeCorazones;
-	String sieteDeCorazones;
-	String nueveDeCorazones;
+	Carta asDeCorazones;
+	Carta sieteDeCorazones;
+	Carta nueveDeCorazones;
 	
-	String reinaDePicas;
-	String diezDePicas;
+	Carta reinaDePicas;
+	Carta diezDePicas;
 	
-	String diezDeTrebol;
+	Carta diezDeTrebol;
 	
-	String reyDeDiamantes;
+	Carta reyDeDiamantes;
 	
 	
 	
@@ -26,16 +27,16 @@ class PokerStatusTest {
 		//Set Up
 		pokerStatus = new PokerStatus();
 		
-		asDeCorazones = "1C";
-		sieteDeCorazones = "7C";
-		nueveDeCorazones = "9C";
+		asDeCorazones = new Carta(ValorDeCarta.UNO, "C");
+		sieteDeCorazones = new Carta(ValorDeCarta.SIETE, "C");
+		nueveDeCorazones = new Carta(ValorDeCarta.NUEVE, "C");
 		
-		reinaDePicas = "QP";
-		diezDePicas = "10P";
+		reinaDePicas = new Carta(ValorDeCarta.Q, "P");
+		diezDePicas = new Carta(ValorDeCarta.DIEZ, "P");
 		
-		diezDeTrebol = "10T";
+		diezDeTrebol = new Carta(ValorDeCarta.DIEZ, "T");
 		
-		reyDeDiamantes = "KD";
+		reyDeDiamantes = new Carta(ValorDeCarta.K, "D");
 	}
 
 	@Test
@@ -83,14 +84,40 @@ class PokerStatusTest {
 		assertEquals("Poker", resultado);
 	}
 	
-	/*
+	
 	@Test
-	void testUnaCartaMayorAOtraDevuelveTrue() {
+	void testEsMayorQue_UnaCartaMayorAOtraDevuelveTrue() {
 		//Excercise
-		boolean resultado = pokerStatus.verificar(asDeCorazones, asDeCorazones, asDeCorazones, asDeCorazones, asDeCorazones);
+		boolean resultado = reyDeDiamantes.esMayorQue(asDeCorazones);
 				
 		//Verify
 		assertTrue(resultado);
 	}
-	*/
+	
+	@Test
+	void testEsMayorQue_UnaCartaMenorAOtraDevuelveFalse() {
+		//Excercise
+		boolean resultado = asDeCorazones.esMayorQue(reyDeDiamantes);
+				
+		//Verify
+		assertFalse(resultado);
+	}
+	
+	@Test
+	void testTieneMismoPalo_UnaCartaConElMismoPaloQueOtraDevuelveTrue() {
+		//Excercise
+		boolean resultado = asDeCorazones.tieneMismoPalo(sieteDeCorazones);
+				
+		//Verify
+		assertTrue(resultado);
+	}
+	
+	@Test
+	void testTieneMismoPalo_UnaCartaConDistintoPaloQueOtraDevuelveFalse() {
+		//Excercise
+		boolean resultado = asDeCorazones.tieneMismoPalo(diezDePicas);
+				
+		//Verify
+		assertFalse(resultado);
+	}
 }
